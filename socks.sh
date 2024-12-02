@@ -56,7 +56,7 @@ clear
 # Replace "eth0" with the active network interface
 echo "Detecting active network interface..."
 INTERFACE=$(ip -o -4 route show to default | awk '{print $5}')
-sudo sed -i "s/eth0/$INTERFACE/g" /etc/danted.conf &
+sudo sed -i "s/eth0/$INTERFACE/g" /etc/danted.conf &> /dev/null &
 spinner $!
 clear
 # Create a user for authentication
@@ -67,13 +67,13 @@ read -p "Enter username: " SOCKS_USER
 read -s -p "Enter password: " SOCKS_PASS
 echo
 (sudo useradd -m -s /bin/false "$SOCKS_USER" &&
-echo "$SOCKS_USER:$SOCKS_PASS" | sudo chpasswd) &
+echo "$SOCKS_USER:$SOCKS_PASS" | sudo chpasswd) &> /dev/null &
 spinner $!
 clear
 # Enable and start Dante service
 echo "Enabling and starting Dante server..."
 (sudo systemctl enable danted &&
-sudo systemctl restart danted) &
+sudo systemctl restart danted) &> /dev/null &
 spinner $!
 clear
 # Show success message
