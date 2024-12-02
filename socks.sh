@@ -18,22 +18,13 @@ spinner() {
 
 clear
 # Update system
-echo "Updating system..."
+echo "Updating system" spinner $!
 (sudo apt update && sudo apt upgrade -y) &> /dev/null &
-spinner $!
-clear
-# Install Dante server
-echo "Installing Dante server..."
+
 (sudo apt install -y dante-server) &> /dev/null &
-spinner $!
-clear
-# Backup default config
-echo "Backing up default configuration..."
+
 (sudo cp /etc/danted.conf /etc/danted.conf.bak) &
-spinner $!
-clear
-# Create new configuration file
-echo "Configuring Dante server..."
+
 sudo tee /etc/danted.conf > /dev/null <<EOF
 logoutput: syslog
 internal: eth0 port = 1080
@@ -51,15 +42,10 @@ socks pass {
     log: connect disconnect error
 }
 EOF
-spinner $!
-clear
-# Replace "eth0" with the active network interface
-echo "Detecting active network interface..."
+
 INTERFACE=$(ip -o -4 route show to default | awk '{print $5}')
 sudo sed -i "s/eth0/$INTERFACE/g" /etc/danted.conf &> /dev/null &
-spinner $!
-clear
-# Create a user for authentication
+
 echo "========================================"
 echo "   MASUKAN USER DAN PASS NYA BRE!!!"
 echo "========================================"
@@ -68,15 +54,10 @@ read -s -p "Enter password: " SOCKS_PASS
 echo
 (sudo useradd -m -s /bin/false "$SOCKS_USER" &&
 echo "$SOCKS_USER:$SOCKS_PASS" | sudo chpasswd) &> /dev/null &
-spinner $!
-clear
-# Enable and start Dante service
-echo "Enabling and starting Dante server..."
+
 (sudo systemctl enable danted &&
 sudo systemctl restart danted) &> /dev/null &
-spinner $!
-clear
-# Show success message
+
 echo "========================================"
 echo "   AUTO SOCKS BY DOT AJA OFFICIAL"
 echo "========================================"
