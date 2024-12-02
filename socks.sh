@@ -60,7 +60,9 @@ sudo sed -i "s/eth0/$INTERFACE/g" /etc/danted.conf &
 spinner $!
 clear
 # Create a user for authentication
-echo "Creating user for SOCKS authentication..."
+echo "========================================"
+echo "   MASUKAN USER DAN PASS NYA BRE!!!"
+echo "========================================"
 read -p "Enter username: " SOCKS_USER
 read -s -p "Enter password: " SOCKS_PASS
 echo
@@ -78,7 +80,7 @@ clear
 echo "========================================"
 echo "   AUTO SOCKS BY DOT AJA OFFICIAL"
 echo "========================================"
-echo "$(curl -s ifconfig.me):1080:$SOCKS_USER:SOCKS_PASS"
+echo "$(curl -s ifconfig.me):1080:$SOCKS_USER:$SOCKS_PASS"
 echo "========================================"
 echo "   GUNAKAN DENGAN BIJAK YA BREEE :)"
 echo "========================================"
