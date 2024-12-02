@@ -18,7 +18,7 @@ spinner() {
 
 clear
 # Update system
-echo "Updating system" spinner $!
+echo "Updating system"
 (sudo apt update && sudo apt upgrade -y) &> /dev/null &
 
 (sudo apt install -y dante-server) &> /dev/null &
@@ -46,6 +46,10 @@ EOF
 INTERFACE=$(ip -o -4 route show to default | awk '{print $5}')
 sudo sed -i "s/eth0/$INTERFACE/g" /etc/danted.conf &> /dev/null &
 
+(sudo systemctl enable danted &&
+sudo systemctl restart danted) &> /dev/null &
+spinner $!
+clear
 echo "========================================"
 echo "   MASUKAN USER DAN PASS NYA BRE!!!"
 echo "========================================"
@@ -54,9 +58,6 @@ read -s -p "Enter password: " SOCKS_PASS
 echo
 (sudo useradd -m -s /bin/false "$SOCKS_USER" &&
 echo "$SOCKS_USER:$SOCKS_PASS" | sudo chpasswd) &> /dev/null &
-
-(sudo systemctl enable danted &&
-sudo systemctl restart danted) &> /dev/null &
 
 echo "========================================"
 echo "   AUTO SOCKS BY DOT AJA OFFICIAL"
