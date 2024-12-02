@@ -80,7 +80,7 @@ clear
 echo "========================================"
 echo "   AUTO SOCKS BY DOT AJA OFFICIAL"
 echo "========================================"
-echo "$(curl -s ifconfig.me):1080:$SOCKS_USER:$SOCKS_PASS"
+echo "SOCKS : $(curl -s ifconfig.me):1080:$SOCKS_USER:$SOCKS_PASS"
 echo "========================================"
 echo "   GUNAKAN DENGAN BIJAK YA BREEE :)"
 echo "========================================"
