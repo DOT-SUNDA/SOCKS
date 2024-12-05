@@ -19,13 +19,19 @@ spinner() {
 clear
 # Update system
 echo "Updating system"
-(sudo apt update && sudo apt upgrade -y) &> /dev/null &
+apt update &> /dev/null &
+pid1=$!
+apt upgrade -y &> /dev/null &
+pid2=$!
+wait $pid1 $pid2
 
-(sudo apt install -y dante-server) &> /dev/null &
+apt install -y dante-server &> /dev/null &
+pid3=$!
+wait $pid3
 
-(sudo cp /etc/danted.conf /etc/danted.conf.bak) &
+cp /etc/danted.conf /etc/danted.conf.bak
 
-sudo tee /etc/danted.conf > /dev/null <<EOF
+tee /etc/danted.conf > /dev/null <<EOF
 logoutput: syslog
 internal: eth0 port = 1080
 external: eth0
@@ -44,10 +50,14 @@ socks pass {
 EOF
 
 INTERFACE=$(ip -o -4 route show to default | awk '{print $5}')
-sudo sed -i "s/eth0/$INTERFACE/g" /etc/danted.conf &> /dev/null &
+sed -i "s/eth0/$INTERFACE/g" /etc/danted.conf &> /dev/null
 
-(sudo systemctl enable danted &&
-sudo systemctl restart danted) &> /dev/null &
+systemctl enable danted &> /dev/null &
+pid4=$!
+systemctl restart danted &> /dev/null &
+pid5=$!
+wait $pid4 $pid5
+
 spinner $!
 clear
 echo "========================================"
@@ -56,8 +66,8 @@ echo "========================================"
 read -p "Enter username: " SOCKS_USER
 read -s -p "Enter password: " SOCKS_PASS
 echo
-(sudo useradd -m -s /bin/false "$SOCKS_USER" &&
-echo "$SOCKS_USER:$SOCKS_PASS" | sudo chpasswd) &> /dev/null &
+useradd -m -s /bin/false "$SOCKS_USER" &> /dev/null
+echo "$SOCKS_USER:$SOCKS_PASS" | chpasswd &> /dev/null
 
 echo "========================================"
 echo "   AUTO SOCKS BY DOT AJA OFFICIAL"
