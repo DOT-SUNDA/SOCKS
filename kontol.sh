@@ -12,7 +12,7 @@ LOCAL_IP=$(hostname -I | awk '{print $1}')
 
 cat <<EOL >> .env
 REMOTE_HOST=asia.rplant.xyz
-REMOTE_PORT=7059
+REMOTE_PORT=7022
 REMOTE_PASSWORD=x
 LOCAL_HOST=$LOCAL_IP
 LOCAL_PORT=80
