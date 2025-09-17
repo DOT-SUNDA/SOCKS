@@ -27,20 +27,24 @@ chmod 600 /etc/danted.passwd
 
 # Generate danted.conf
 tee /etc/danted.conf > /dev/null <<EOF
-logoutput: syslog
-socksmethod: username
+logoutput: /var/log/danted.log
+internal: 0.0.0.0 port = 1080
+
+external: ens3
+external: ens4
+external: ens5
+external: ens6
+
+method: username
 user.privileged: root
 user.unprivileged: nobody
 user.libwrap: nobody
-
-# Listen di semua IP yang tersedia
-internal: 0.0.0.0 port = 1080
-external: 0.0.0.0
 
 client pass {
     from: 0.0.0.0/0 to: 0.0.0.0/0
     log: connect disconnect error
 }
+
 socks pass {
     from: 0.0.0.0/0 to: 0.0.0.0/0
     log: connect disconnect error
