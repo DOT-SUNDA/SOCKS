@@ -15,15 +15,15 @@ wait $pid3
 cp /etc/danted.conf /etc/danted.conf.bak
 clear
 echo "========================================"
-echo "   MASUKAN USER DAN PASS NYA BRE!!!"
+echo "      INPUT USER AND PASS NYA !!!"
 echo "========================================"
-read -p "Enter username: " SOCKS_USER
-read -s -p "Enter password: " SOCKS_PASS
+read -p "  USER : " SOCKS_USER
+read -s -p " PASS : " SOCKS_PASS
 echo
 
 # Buat passdb untuk autentikasi
-echo "$SOCKS_USER:$SOCKS_PASS" > /etc/danted.passwd
-chmod 600 /etc/danted.passwd
+useradd -m -s /bin/false "$SOCKS_USER" &> /dev/null
+echo "$SOCKS_USER:$SOCKS_PASS" | chpasswd &> /dev/null
 
 # Generate danted.conf
 tee /etc/danted.conf > /dev/null <<EOF
@@ -55,15 +55,11 @@ systemctl restart danted
 
 clear
 echo "========================================"
-echo "   AUTO SOCKS BY DOT AJA OFFICIAL"
+echo "       AUTO SOCKS 4 IP CLOUDSIGMA"
 echo "========================================"
-echo "SOCKS aktif di SEMUA IP VPS kamu!"
-echo "Gunakan format: IP-VPS:1080:$SOCKS_USER:$SOCKS_PASS"
-echo
-echo "Contoh:"
 hostname -I | tr ' ' '\n' | while read ip; do
     echo "SOCKS : $ip:1080:$SOCKS_USER:$SOCKS_PASS"
 done
 echo "========================================"
-echo "   GUNAKAN DENGAN BIJAK YA BREEE :)"
+echo "          BY DOT AJA OFFICIAL :)"
 echo "========================================"
