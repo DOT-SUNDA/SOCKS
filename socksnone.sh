@@ -16,9 +16,9 @@ cp /etc/danted.conf /etc/danted.conf.bak
 # Buat konfigurasi baru tanpa autentikasi (method: none)
 tee /etc/danted.conf > /dev/null <<EOF
 logoutput: syslog
-internal: eth0 port = 1080
+internal: 0.0.0.0 port = 1080
 external: eth0
-method: none
+socksmethod: none
 user.privileged: root
 user.unprivileged: nobody
 user.libwrap: nobody
