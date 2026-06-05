@@ -3,12 +3,12 @@ clear
 
 # Update system
 echo "Updating system..."
-apt update -y &> /dev/null
-apt upgrade -y &> /dev/null
+apt update -y 
+apt upgrade -y
 
 # Install dante-server
 echo "Installing dante-server..."
-apt install -y dante-server &> /dev/null
+apt install -y dante-server
 
 # Backup konfigurasi asli
 cp /etc/danted.conf /etc/danted.conf.bak
